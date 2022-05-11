@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-around;
+  height: 5vh;
+  padding-top: 15px;
+  border: 1px solid white;
+  background-color: rgb(152, 199, 241);
+}
+.scoreboard {
+  /* margin-right: 10%; */
+  color: rgba(0, 0, 0, 0.683);
+}
+.playerNum {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.729);
+}
