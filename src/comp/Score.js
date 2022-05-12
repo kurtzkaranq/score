@@ -1,15 +1,13 @@
 import { useState } from "react";
 
 function Score(props) {
-  // console.log(props.clickHandler);
   function clickHandler(e) {
     if (e.target.textContent == "+") {
-      props.setScore(props.score + 1);
+      props.modifyScore(props.name, '+')
     } else {
-      props.setScore(props.score - 1);
+      props.modifyScore(props.name, '-')
     }
   }
-  // console.log(props.playerData);
   return (
     <>
       <div className="score">

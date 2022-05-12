@@ -1,11 +1,10 @@
 import "../style/header.css";
 
-function Header() {
-  let number = 4;
+function Header(props) {
   return (
     <div className="header">
       <div className="scoreboard">SCOREBOARD</div>
-      <div className="playerNum">player : {number}</div>
+      <div className="playerNum">player : {props.number}</div>
     </div>
   );
 }

@@ -16,10 +16,9 @@ export default function AddButton(props) {
   const handleShow = () => setShow(true);
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log(e.target.elements.score.value);
     props.AddData(e.target.elements);
-  }
 
+  }
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
