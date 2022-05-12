@@ -3,14 +3,14 @@ import "./App.css";
 import Header from "./comp/Header";
 import Player from "./comp/Player";
 import Nav from "./comp/Nav";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import Add from "./comp/AddButton";
 import AddButton from "./comp/AddButton";
-
-
+import RmvButton from "./comp/RmvButton";
 
 function App() {
   const [players, setPlayers] = useState([]);
+  const [changed, setChanged] = useState(false);
   useEffect(() => {
     setPlayers([
       {
@@ -29,40 +29,44 @@ function App() {
         name: "c",
         age: 20,
         gender: "male",
-        score: 3,
+        score: 16,
       },
       {
         name: "a",
         age: 29,
         gender: "male",
-        score: 4,
+        score: 15,
       },
-    ])
+    ]);
   }, []);
+  useEffect(() => {
+    let max = new Object(players[0]);
+    max.image = "";
+    // console.log(max);
+    players.forEach((e) => {
+      if (e.score > max.score) {
+        max = e;
+      }
+      e.image = "";
+    });
 
-  const [changed, setChanged] = useState(true);
+    max.image = "image/crown-solid.svg";
+    console.log(max);
+    setChanged(!changed);
+  }, [players]);
 
   function modifyScore(name, plusMinus) {
     if (plusMinus == "+") {
-      // console.log([...players][1].score++)
-      const arr = players
-      arr[findPlayerIndex(name)].score +=1
-      setPlayers(arr)
-      console.log(players);
-      setChanged(!changed)
-    // setPlayers([...players][findPlayerIndex(name)].score++)
-    // debugger
-    // [...players][1].score++
-
-    // setPlayers([...players][1].score =[...players][1].score++ )
-
-    // console.log([...players][findPlayerIndex(name)].score++);
-    // players[findPlayerIndex(name)].score++
-
+      const arr = players;
+      arr[findPlayerIndex(name)].score += 1;
+      setPlayers([...arr]);
+      console.log("inside");
     } else {
-      setPlayers([...players][findPlayerIndex(name)].score--)
+      const arr = players;
+      arr[findPlayerIndex(name)].score -= 1;
+      setPlayers([...arr]);
+      // console.log("inside");
     }
-    // console.log(players[findPlayerIndex(name)].score);
   }
 
   function findPlayerIndex(playerName) {
@@ -72,7 +76,6 @@ function App() {
         foundIndex = index;
       }
     });
-    // console.log(foundIndex);
     return foundIndex;
   }
 
@@ -82,10 +85,8 @@ function App() {
         return -1;
       }
     });
-    setChanged(!changed);
-    setPlayers(newName); 
-    console.log(players);
-
+    setPlayers([...newName]);
+    // console.log(players);
   }
   function sortb() {
     const newScore = players.sort((a, b) => {
@@ -93,28 +94,37 @@ function App() {
         return -1;
       }
     });
-    setChanged(!changed);
-    setPlayers(newScore);
-    console.log(players);
-    console.log('aa');
+    // console.log([...newScore][0]);
+    setPlayers([...newScore]);
+    // console.log(players);
+    // console.log("aa");
   }
 
   let total = 0;
   players.forEach((player) => (total += player.score));
   let average = total / players.length;
-  // console.log(average);
 
   function AddData(data) {
-
-    console.log(data.playerName.value);
-    console.log(data.score.value);
-    setPlayers([...players, {
-      name: data.playerName.value,
-      age: 29,
-      gender: "male",
-      score: parseInt(data.score.value) ,
-    }])
-
+    // console.log(data.playerName.value);
+    // console.log(data.score.value);
+    setPlayers([
+      ...players,
+      {
+        name: data.playerName.value,
+        age: 29,
+        gender: "male",
+        score: parseInt(data.score.value),
+      },
+    ]);
+  }
+  function Remove(data) {
+    let arr = [...players];
+    arr = arr.filter((player) => {
+      // console.log(player.name);
+      return player.name !== data;
+    });
+    // console.log([...arr]);
+    setPlayers([...arr]);
   }
 
   return (
@@ -129,10 +139,14 @@ function App() {
             playerData={p}
             modifyScore={modifyScore}
             average={average}
+            Remove={Remove}
+            findPlayerIndex={findPlayerIndex}
           />
         );
       })}
-      <AddButton AddData={AddData} />
+      <div className="d-flex justify-content-around">
+        <AddButton AddData={AddData} />
+      </div>
     </div>
   );
 }
